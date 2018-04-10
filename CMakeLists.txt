@@ -5,14 +5,14 @@
 
 cmake_minimum_required(VERSION 3.1)
 message("Building spdlog")
-project(spdlog VERSION 1.0.0)
+project(spdlog VERSION 1.0.0 LANGUAGES CXX)
 include(CTest)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-    set(CMAKE_CXX_FLAGS "-Wall ${CMAKE_CXX_FLAGS}")
+    set(CMAKE_CXX_FLAGS "-Wall -O3 ${CMAKE_CXX_FLAGS}")
 endif()
 
 add_library(spdlog INTERFACE)
@@ -63,7 +63,6 @@ configure_file("cmake/spdlog.pc.in" "${pkg_config}" @ONLY)
 install(
     TARGETS spdlog
     EXPORT "${targets_export_name}"
-    INCLUDES DESTINATION "${include_install_dir}"
 )
 
 install(DIRECTORY "include/spdlog" DESTINATION "${include_install_dir}")
