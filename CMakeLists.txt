@@ -7,6 +7,7 @@ cmake_minimum_required(VERSION 3.1)
 project(spdlog VERSION 1.3.1 LANGUAGES CXX)
 include(CMakeDependentOption)
 include(GNUInstallDirs)
+message("Building spdlog")
 
 #---------------------------------------------------------------------------------------
 # set default build to release
