@@ -70,8 +70,9 @@ public:
         }
     }
 
-    const filename_t &filename() const
+    filename_t filename()
     {
+        std::lock_guard<Mutex> lock(base_sink<Mutex>::mutex_);
         return file_helper_.filename();
     }
 
@@ -120,7 +121,8 @@ private:
             filenames.emplace_back(filename);
             now -= std::chrono::hours(24);
         }
-        for (auto iter = filenames.rbegin(); iter != filenames.rend(); ++iter) {
+        for (auto iter = filenames.rbegin(); iter != filenames.rend(); ++iter)
+        {
             filenames_q_.push_back(std::move(*iter));
         }
     }

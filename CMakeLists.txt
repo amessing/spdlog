@@ -7,11 +7,15 @@ message("Building spdlog")
 #---------------------------------------------------------------------------------------
 # Start spdlog project
 #---------------------------------------------------------------------------------------
-include(GNUInstallDirs)
 include(cmake/utils.cmake)
 include(cmake/ide.cmake)
 
 spdlog_extract_version()
+
+project(spdlog VERSION ${SPDLOG_VERSION} LANGUAGES CXX)
+message(STATUS "Build spdlog: ${SPDLOG_VERSION}")
+
+include(GNUInstallDirs)
 
 #---------------------------------------------------------------------------------------
 # Set default build to release
@@ -20,8 +24,6 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose Release or Debug" FORCE)
 endif()
 
-project(spdlog VERSION ${SPDLOG_VERSION} LANGUAGES CXX)
-message(STATUS "Build spdlog: ${SPDLOG_VERSION}")
 
 #---------------------------------------------------------------------------------------
 # Compiler config
