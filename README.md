@@ -31,6 +31,8 @@ $ cmake .. && make -j
 * vcpkg: `vcpkg install spdlog`
 * conan: `spdlog/[>=1.4.1]`
 * conda: `conda install -c conda-forge spdlog`
+* build2: ```depends: spdlog ^1.8.2```
+
 
 
 ## Features
@@ -188,6 +190,7 @@ void stopwatch_example()
 // {:s} - don't separate each byte with space.
 // {:p} - don't print the position on each line start.
 // {:n} - don't split the output to lines.
+// {:a} - show ASCII if :n is not set.
 
 #include "spdlog/fmt/bin_to_hex.h"
 

@@ -102,6 +102,7 @@ option(
     SPDLOG_NO_ATOMIC_LEVELS
     "prevent spdlog from using of std::atomic log levels (use only if your code never modifies log levels concurrently"
     OFF)
+option(SPDLOG_DISABLE_DEFAULT_LOGGER "Disable default logger creation" OFF)
 
 # clang-tidy
 if(${CMAKE_VERSION} VERSION_GREATER "3.5")
@@ -125,7 +126,7 @@ if(NOT SPDLOG_FMT_EXTERNAL AND NOT SPDLOG_FMT_EXTERNAL_HO)
     list(APPEND SPDLOG_SRCS src/fmt.cpp)
 endif()
 
-if(SPDLOG_BUILD_SHARED)
+if(SPDLOG_BUILD_SHARED OR BUILD_SHARED_LIBS)
     if(WIN32)
         configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.rc.in ${CMAKE_CURRENT_BINARY_DIR}/version.rc @ONLY)
         list(APPEND SPDLOG_SRCS ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
@@ -133,7 +134,8 @@ if(SPDLOG_BUILD_SHARED)
     add_library(spdlog SHARED ${SPDLOG_SRCS} ${SPDLOG_ALL_HEADERS})
     target_compile_definitions(spdlog PUBLIC SPDLOG_SHARED_LIB)
     if(MSVC)
-        target_compile_options(spdlog PUBLIC /wd4251 /wd4275)
+        target_compile_options(spdlog PUBLIC 
+            $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<NOT:$<COMPILE_LANGUAGE:CUDA>>>:/wd4251 /wd4275>)
     endif()
     if(NOT SPDLOG_FMT_EXTERNAL AND NOT SPDLOG_FMT_EXTERNAL_HO)
         target_compile_definitions(spdlog PRIVATE FMT_EXPORT PUBLIC FMT_SHARED)
@@ -173,7 +175,7 @@ target_link_libraries(spdlog_header_only INTERFACE Threads::Threads)
 # ---------------------------------------------------------------------------------------
 if(SPDLOG_FMT_EXTERNAL OR SPDLOG_FMT_EXTERNAL_HO)
     if(NOT TARGET fmt::fmt)
-        find_package(fmt 5.3.0 REQUIRED)
+        find_package(fmt 5.3.0 CONFIG REQUIRED)
     endif()
     target_compile_definitions(spdlog PUBLIC SPDLOG_FMT_EXTERNAL)
     target_compile_definitions(spdlog_header_only INTERFACE SPDLOG_FMT_EXTERNAL)
@@ -203,7 +205,8 @@ foreach(
     SPDLOG_PREVENT_CHILD_FD
     SPDLOG_NO_THREAD_ID
     SPDLOG_NO_TLS
-    SPDLOG_NO_ATOMIC_LEVELS)
+    SPDLOG_NO_ATOMIC_LEVELS
+    SPDLOG_DISABLE_DEFAULT_LOGGER)
     if(${SPDLOG_OPTION})
         target_compile_definitions(spdlog PUBLIC ${SPDLOG_OPTION})
         target_compile_definitions(spdlog_header_only INTERFACE ${SPDLOG_OPTION})
@@ -291,3 +294,4 @@ if(SPDLOG_INSTALL)
     # ---------------------------------------------------------------------------------------
     include(cmake/spdlogCPack.cmake)
 endif()
+
