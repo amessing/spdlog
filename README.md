@@ -1,6 +1,6 @@
 # spdlog
 
-Very fast, header-only/compiled, C++ logging library. [![Build Status](https://travis-ci.org/gabime/spdlog.svg?branch=v1.x)](https://travis-ci.org/gabime/spdlog)&nbsp; [![Build status](https://ci.appveyor.com/api/projects/status/d2jnxclg20vd0o50?svg=true)](https://ci.appveyor.com/project/gabime/spdlog) [![Release](https://img.shields.io/github/release/gabime/spdlog.svg)](https://github.com/gabime/spdlog/releases/latest)
+Very fast, header-only/compiled, C++ logging library. [![Build Status](https://travis-ci.com/gabime/spdlog.svg?branch=v1.x)](https://travis-ci.com/gabime/spdlog)&nbsp; [![Build status](https://ci.appveyor.com/api/projects/status/d2jnxclg20vd0o50?svg=true)](https://ci.appveyor.com/project/gabime/spdlog) [![Release](https://img.shields.io/github/release/gabime/spdlog.svg)](https://github.com/gabime/spdlog/releases/latest)
 
 ## Install 
 #### Header only version
@@ -47,8 +47,9 @@ $ cmake .. && make -j
     * Daily log files.
     * Console logging (colors supported).
     * syslog.
-    * Windows debugger (```OutputDebugString(..)```)
-    * Easily extendable with custom log targets  (just implement a single function in the [sink](include/spdlog/sinks/sink.h) interface).
+    * Windows event log.
+    * Windows debugger (```OutputDebugString(..)```).
+    * Easily [extendable](https://github.com/gabime/spdlog/wiki/4.-Sinks#implementing-your-own-sink) with custom log targets.
 * Log filtering - log levels can be modified in runtime as well as in compile time.
 * Support for loading log levels from argv or from environment var.
 * [Backtrace](#backtrace-support) support - store debug messages in a ring buffer and display later on demand.
